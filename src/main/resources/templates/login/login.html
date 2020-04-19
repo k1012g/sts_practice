@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<link th:href="@{/webjars/boorstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"></link>
+	<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
 	<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 	<title>Login</title>
@@ -22,6 +22,6 @@
 	</form>	
 	<br>
 	
-	<a href="@{/signup}">ユーザー新規登録はこちら</a>
+	<a th:href="@{/signup}">ユーザー新規登録はこちら</a>
 </body>
 </html>
