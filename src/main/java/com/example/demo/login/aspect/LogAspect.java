@@ -21,6 +21,10 @@ public class LogAspect {
 		System.out.println("メソッド終了 : " + jp.getSignature());
 	}
 	
+//	@Around(bean(* Controller))
+//	@Around("@annotation(org.springframework.web.bind.annotation.GetMapping)")
+//	@Around("@within(org.springframework.stereotype.Controller)")
+
 	@Around("execution(* *..*.*Controller.*(..))")
 	public Object startLog(ProceedingJoinPoint jp)throws Throwable {
 		System.out.println("メソッド開始 : " + jp.getSignature());
