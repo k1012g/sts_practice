@@ -87,7 +87,7 @@ public class UserDaoJdbcImpl implements UserDao {
 	
 	@Override 
 	public int updateOne(User user) throws DataAccessException {
-		int rowNumber = jdbc.update("UPDATE M_USER"
+		int rowNumber = jdbc.update("UPDATE m_user"
 				+ " SET"
 				+ " password = ?,"
 				+ " user_name = ?,"
@@ -107,7 +107,8 @@ public class UserDaoJdbcImpl implements UserDao {
 	
 	@Override
 	public int deleteOne(String userId) throws DataAccessException {
-		return 0;
+		int rowNumber = jdbc.update("DELETE FROM m_user WHERE user_id = ?", userId);
+		return rowNumber;
 	}
 	
 	@Override
