@@ -54,5 +54,95 @@ public class UserDaoNamedJdbcImpl implements UserDao {
 				.addValue("role", user.getRole());
 		
 		return jdbc.update(sql, params);
-	}	
+	}
+	
+	@Override
+	public User selectOne(String userId) {
+		String sql = "SELECT * FROM m_user WHERE user_id = :userId";
+		
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
+		
+		Map<String, Object> map = jdbc.queryForMap(sql, params);
+		
+		User user = new User();
+		
+		user.setUserId((String)map.get("user_id"));
+		user.setPassword((String)map.get("password"));
+		user.setUserName((String)map.get("user_name"));
+		user.setBirthday((Date)map.get("birthday"));
+		user.setAge((Integer)map.get("age"));
+		user.setMarriage((Boolean)map.get("marriage"));
+		user.setRole((String)map.get("role"));
+		
+		return user;
+	}
+	
+	@Override
+	public List<User> selectMany() {
+		String sql = "SELECT * FROM m_user";
+		
+		SqlParameterSource params = new MapSqlParameterSource();
+		
+		List<Map<String, Object>> getList = jdbc.queryForList(sql, params);
+		
+		List<User> userList = new ArrayList<>();
+		
+		for (Map<String, Object> map : getList) {
+			User user = new User();
+			
+			user.setUserId((String)map.get("user_id"));
+			user.setPassword((String)map.get("password"));
+			user.setUserName((String)map.get("user_name"));
+			user.setBirthday((Date)map.get("birthday"));
+			user.setAge((Integer)map.get("age"));
+			user.setMarriage((Boolean)map.get("marriage"));
+			user.setRole((String)map.get("role"));
+			
+			userList.add(user);
+		}
+		
+		return userList;
+	}
+	
+	@Override
+	public int updateOne(User user) {
+		String sql = "UPDATE m_user"
+				+ " SET"
+				+ " password = :password,"
+				+ " user_name = :userName,"
+				+ " birthday = :birthday,"
+				+ " age = :age,"
+				+ " marriage = :marriage,"
+				+ " WHERE user_id = :userId";
+		
+		SqlParameterSource params = new MapSqlParameterSource()
+				.addValue("userId", user.getUserId())
+				.addValue("password", user.getPassword())
+				.addValue("userName", user.getUserName())
+				.addValue("birthday", user.getBirthday())
+				.addValue("age", user.getAge())
+				.addValue("marriage", user.getMarriage());
+		
+		return jdbc.update(sql, params);
+	}
+	
+	@Override
+	public int deleteOne(String userId) {
+		String sql = "DELETE FROM m_user WHERE user_id = :userId";
+		
+		SqlParameterSource params = new MapSqlParameterSource().addValue("userId", userId);
+		
+		int rowNumber = jdbc.update(sql, params);
+		
+		return rowNumber;
+	}
+	
+	@Override
+	public void userCsvOut() {
+		String sql = "SELECT * FROM m_user";
+		
+		UserRowCallbackHandler handler = new UserRowCallbackHandler();
+		
+		jdbc.query(sql, handler);
+	}
 }
