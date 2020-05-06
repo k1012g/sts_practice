@@ -102,6 +102,10 @@ public class UserDaoJdbcImpl implements UserDao {
 				, user.getMarriage()
 				, user.getUserId());
 		
+//		if (rowNumber > 0) {
+//			throw new DataAccessException("トランザクションテスト") {};
+//		}
+		
 		return rowNumber;
 	}
 	
