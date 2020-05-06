@@ -32,7 +32,7 @@ public class UserDaoJdbcImpl implements UserDao {
 				+ "age, "
 				+ "marriage, "
 				+ "role)"
-				+ "VALUES(?, ?, ?, ?, ?, ?, ?)"
+				+ " VALUES(?, ?, ?, ?, ?, ?, ?)"
 				, user.getUserId()
 				, user.getPassword()
 				, user.getUserName()
