@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
+	
+	<!-- thymeleafでsrc/main/resources配下のファイルパスを読み込むには -->
+	<!-- css th:href="@{resources配下からのパス}" -->
+	<!-- js th:src="@{resource配下からのパス}" -->
 	<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
 	<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>

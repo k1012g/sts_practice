@@ -12,8 +12,11 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
+// Dataアノテーションをつけることでsetter, getterメソッドが使えるようになる(記述の必要なし)
 @Data
 public class SignupForm {
+//	NotBlankアノテーションでnull、空文字、空白スペースをチェック
+//	Emailアノテーションでメールアドレス形式をチェック
 	@NotBlank(message = "{require_check}", groups = ValidGroup1.class)
 	@Email(message = "{email_check}", groups = ValidGroup2.class)
 	private String userId;
@@ -26,14 +29,18 @@ public class SignupForm {
 	@NotBlank(message = "{require_check}", groups = ValidGroup1.class)
 	private String userName;
 	
+//	NotNullアノテーションでnullでないことをチェック
+//	DateTimeFormatアノテーションで画面から渡されてきた文字列を日付型に変更する
 	@NotNull(message = "{require_check}", groups = ValidGroup1.class)
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date birthday;
 	
+//	Min/Maxアノテーションで範囲をチェック
 	@Min(value = 20, message = "{min_check}", groups = ValidGroup2.class)
 	@Max(value = 100, message = "{max_check}", groups = ValidGroup2.class)
 	private int age;
 	
+//	AssertFalseアノテーションでfalseかどうかをチェック
 	@AssertFalse(message = "{false_check}", groups = ValidGroup2.class)
 	private boolean marriage;
 	

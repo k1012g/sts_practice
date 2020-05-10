@@ -8,9 +8,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
+// AOPクラスにはAspectアノテーションをつける
+// 同時にDIコンテナで管理するためにComponentをつける
 @Aspect
 @Component
 public class LogAspect {
+//	Beforeアノテーションの後に特定のメソッドを指定
+//	execution(<戻り値><パッケージ名>.<クラス名>.<メソッド名>(<引数>) 
 	@Before("execution(* *..*.*Controller.*(..))")
 	public void startLod(JoinPoint jp) {
 		System.out.println("メソッド開始 : " + jp.getSignature());
@@ -40,6 +44,7 @@ public class LogAspect {
 		}
 	}
 	
+//	UserDaoクラスのログを出力
 	@Around("execution(* *..*.*UserDao*.*(..))")
 	public Object daoLog(ProceedingJoinPoint jp)throws Throwable {
 		System.out.println("メソッド開始 : " + jp.getSignature());

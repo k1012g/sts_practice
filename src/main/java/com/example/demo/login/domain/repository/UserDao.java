@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import com.example.demo.login.domain.model.User;
 
+// 後にDaoを使用するクラスを複数種類作れるようにinterfaceを宣言
+//　呼び出し元にDataAccessExceptionを投げる
 public interface UserDao {
 	public int count() throws DataAccessException;
 	

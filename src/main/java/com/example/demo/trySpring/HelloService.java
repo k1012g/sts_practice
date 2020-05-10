@@ -4,8 +4,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//　ServiceアノテーションをつけてDIコンテナで管理
+// ServiceクラスはRepositoryクラスで使うものを管理している
 @Service
 public class HelloService {
+	
+//	HelloRepositoryを使うためにAutowiredアノテーション
 	@Autowired
 	private HelloRepository helloRepository;
 

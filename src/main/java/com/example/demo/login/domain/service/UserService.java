@@ -28,10 +28,12 @@ public class UserService {
 		
 		boolean result = false;
 		
+//		rowNumberが0より大きかったらinsert成功
 		if (rowNumber > 0) {
 			result = true;
 		}
 		
+//		resultにtrueを入れて返す
 		return result;
 	}
 	

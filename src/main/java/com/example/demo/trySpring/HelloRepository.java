@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+// RepositoryアノテーションをつけることでDIコンテナで管理
+//　RepositoryクラスはDBのCRUDを行うクラス
 @Repository
 public class HelloRepository {
+//	Autowiredアノテーションでインスタンスを生成しているイメージ
+//	例) private JdbcTemplate jdbcTemplate = new JdbcTemplate();
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	

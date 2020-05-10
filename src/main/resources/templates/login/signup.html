@@ -63,6 +63,8 @@
 					<th class="active">結婚</th>
 					<td>
 						<div class="form-group">
+						<!-- signupControllerでmodelに設定した属性をeach文で処理 -->
+						<!-- itemはローカル変数 -->
 							<div th:each="item:${radioMarriage}">
 								<input type="radio" name="radioMarriage" th:text="${item.key}" th:value="${item.value}" th:field="*{marriage}"></input>
 								<span class="text-danger" th:if="${#fields.hasErrors('marriage')}" th:errors="*{marriage}">marriage error</span>

@@ -25,26 +25,37 @@ public class SignupController {
 	@Autowired
 	private UserService userService;
 	
+//	ラジオボタンの実装
+//	key = String, value = StringのMap
 	private Map<String, String> radioMarriage;
 	
+//	ラジオボタンの初期化
 	private Map<String, String> initRadioMarriage() {
 		Map<String, String> radio = new LinkedHashMap<>();
 		
+//		二つの値をセット
 		radio.put("既婚", "true");
 		radio.put("未婚", "false");
 		
 		return radio;
 	}
 	
+//	GetMappingアノテーションで/signupにGET
+//	ModelAttributeアノテーションをつけると
+//	自動でSignupFormというkeyにformというvalueをセットしてくれる
 	@GetMapping("/signup")
 	public String getSignUp(@ModelAttribute SignupForm form, Model model) {
+//		ラジオボタンを初期化
 		radioMarriage = initRadioMarriage();
 		
+//		singup.htmlで使うためにkeyとvalueをセット
 		model.addAttribute("radioMarriage", radioMarriage);
 		
+//		src/main/resources/login/signup.htmlに遷移
 		return "login/signup";
 	}
 	
+//	/signupにPOSTした内容を受け取る
 	@PostMapping("/signup")
 	public String postSignUp(@ModelAttribute @Validated(GroupOrder.class) SignupForm form, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
