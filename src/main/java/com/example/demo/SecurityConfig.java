@@ -3,16 +3,25 @@ package com.example.demo;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Autowired
 	private DataSource dataSource;
 	
@@ -49,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 								.antMatchers("/css/**").permitAll()
 								.antMatchers("/login").permitAll()
 								.antMatchers("/signup").permitAll()
+								.antMatchers("/admin").hasAuthority("ROLE_ADMIN")
 								// それ以外のページは直リンク禁止
 								.anyRequest().authenticated();
 		
@@ -60,9 +70,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.usernameParameter("userId") // ログインページのユーザーID
 			.passwordParameter("password") // ログインページのパスワード
 			.defaultSuccessUrl("/home", true); // ログイン成功後の遷移先
+		
+		// ログアウト処理
+		http.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/login");
 
-		// CSRF対策を一時的に無効に設定
-		http.csrf().disable();
+		
+//		http.csrf().disable();
 	}
 	
 	@Override
@@ -70,6 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.jdbcAuthentication()
 			.dataSource(dataSource)
 			.usersByUsernameQuery(USER_SQL)
-			.authoritiesByUsernameQuery(USER_SQL);
+			.authoritiesByUsernameQuery(ROLE_SQL)
+			// パスワードを復号化
+			.passwordEncoder(passwordEncoder());
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
@@ -22,6 +23,9 @@ public class UserDaoJdbcImpl implements UserDao {
 	@Autowired
 	JdbcTemplate jdbc;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 //	Userテーブルのレコード数をカウントする
 	@Override
 	public int count() throws DataAccessException {
@@ -33,6 +37,8 @@ public class UserDaoJdbcImpl implements UserDao {
 	
 	@Override
 	public int insertOne(User user) throws DataAccessException {
+		String user_password = passwordEncoder.encode(user.getPassword());
+		
 //		JdbcTemplateを使うときはupdate, delete共にupdateメソッドを使う
 //		第一引数にSQL文を入れて、第二引数にSQLでいう?に相当する値を入れている
 		int rowNumber = jdbc.update("INSERT INTO m_user(user_id, "
@@ -44,7 +50,7 @@ public class UserDaoJdbcImpl implements UserDao {
 				+ "role)"
 				+ " VALUES(?, ?, ?, ?, ?, ?, ?)"
 				, user.getUserId()
-				, user.getPassword()
+				, user_password
 				, user.getUserName()
 				, user.getBirthday()
 				, user.getAge()
@@ -101,6 +107,8 @@ public class UserDaoJdbcImpl implements UserDao {
 	
 	@Override 
 	public int updateOne(User user) throws DataAccessException {
+		String user_password = passwordEncoder.encode(user.getPassword());
+		
 		int rowNumber = jdbc.update("UPDATE m_user"
 				+ " SET"
 				+ " password = ?,"
@@ -109,7 +117,7 @@ public class UserDaoJdbcImpl implements UserDao {
 				+ " age = ?,"
 				+ " marriage = ?"
 				+ " WHERE user_id = ?"
-				, user.getPassword()
+				, user_password
 				, user.getUserName()
 				, user.getBirthday()
 				, user.getAge()
